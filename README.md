@@ -4,8 +4,8 @@
 <img src="https://mayhem4api.forallsecure.com/downloads/img/mapi-logo-full-color.svg" width="500" />
 </a>
 
-Examples for working with Mayhem for API like custom plugins
+Examples for working with Mayhem for API.
 
 ## Folders
 
-- [/plugins](plugins/README.md):         Example plugins for use with Mayhem for Api
+- [/plugins](plugins/README.md):         Example plugins for use with Mayhem for API
