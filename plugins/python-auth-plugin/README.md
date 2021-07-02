@@ -104,12 +104,6 @@ docker run -it --rm --name mapi-plugin -p 9001:9001 mapi-python-auth-plugin
 9001
 ```
 
-The `MAPI_PLUGIN_PORT` works here, or simply use Docker port mapping to a free host port:
-
-```shell
-docker run -it --rm -p 8080:8001 mapi-python-auth-plugin
-```
-
 With the docker container running, you can instruct `mapi` to use it for request
 rewrites by passing the url to the `mapi run` command:
 
