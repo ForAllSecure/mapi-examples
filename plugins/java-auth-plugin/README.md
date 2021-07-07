@@ -5,7 +5,7 @@
 * Docker (Optional)
 
 
-Select one of the development methods below. You must be
+Select one of the development methods below.
 
 # Developing
 
