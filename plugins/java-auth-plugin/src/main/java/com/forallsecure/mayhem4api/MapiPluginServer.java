@@ -20,9 +20,9 @@ import com.google.protobuf.ByteString;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
-import mapi.PluginGrpc.PluginImplBase;
-import mapi.RequestRewritePlugin.Request;
-import mapi.RequestRewritePlugin.Request.Header;
+import mapi.rewrite.RewritePluginGrpc.RewritePluginImplBase;
+import mapi.rewrite.RequestRewritePlugin.Request;
+import mapi.rewrite.RequestRewritePlugin.Request.Header;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -35,7 +35,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  *  In this example, we will send an alternative header every 5th request.
  */
-public final class MapiPluginServer extends PluginImplBase {
+public final class MapiPluginServer extends RewritePluginImplBase {
     // When mapi is run with concurrency > 1, the server will be called concurrently as well.
     // Track requests atomically.
     private final AtomicInteger request_count = new AtomicInteger(0);
