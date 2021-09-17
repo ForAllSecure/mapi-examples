@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package mapi;
+package mapi.rewrite;
 
-service Plugin {
+service RewritePlugin {
    rpc Rewrite(Request) returns (Request);
 }
 

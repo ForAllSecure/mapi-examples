@@ -1,7 +1,7 @@
 # Prerequisites
 
 * Python 3.8 or higher
-* `mapi` CLI 2.6.18 or higher [Installation](https://mayhem4api.forallsecure.com/docs/ch01-01-installation.html)
+* `mapi` CLI 2.7.6 or higher [Installation](https://mayhem4api.forallsecure.com/docs/ch01-01-installation.html)
 * Docker (Optional)
 
 
@@ -45,7 +45,7 @@ source venv/bin/activate
 mapi run --url <API_URL> plugin-example \
   60 \
   <API_SPECIFICATION_PATH> \
-  --experimental-plugin src/plugin.py
+  --experimental-rewrite-plugin src/plugin.py
 ```
 
 If you wish to debug the server while `mapi` is running in your IDE of favorite
@@ -60,7 +60,7 @@ you can pass the URL to `mapi run`:
 mapi run --url <API_URL> plugin-example \
   60 \
   <API_SPECIFICATION_PATH> \
-  --experimental-plugin http://localhost:9001
+  --experimental-rewrite-plugin http://localhost:9001
 ```
 
 
@@ -114,5 +114,5 @@ docker run -it --rm -d --name mapi-plugin -p 9001:9001 mapi-python-auth-plugin
 mapi run --url <API_URL> plugin-example \
   60 \
   <API_SPECIFICATION_PATH> \
-  --experimental-plugin http://localhost:9001
+  --experimental-rewrite-plugin http://localhost:9001
 ```

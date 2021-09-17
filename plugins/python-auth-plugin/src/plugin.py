@@ -9,10 +9,10 @@ import grpc
 
 sys.path.append("generated")
 from request_rewrite_plugin_pb2 import Request
-from request_rewrite_plugin_pb2_grpc import PluginServicer, add_PluginServicer_to_server
+from request_rewrite_plugin_pb2_grpc import RewritePluginServicer, add_RewritePluginServicer_to_server
 
 
-class CustomPluginServicer(PluginServicer):
+class CustomRewritePluginServicer(RewritePluginServicer):
     def __init__(self):
         """
         When mapi is run with concurrency > 1, the server will be called concurrently as well.
@@ -52,7 +52,7 @@ def get_port():
 
 if __name__ == '__main__':
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    add_PluginServicer_to_server(CustomPluginServicer(), server)
+    add_RewritePluginServicer_to_server(CustomRewritePluginServicer(), server)
 
     # Bind to a port. Use the returned value to account for a randomly assigned
     # port.
