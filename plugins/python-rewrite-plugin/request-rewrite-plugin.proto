@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package mapi.rewrite;
+
+service RewritePlugin {
+   rpc Rewrite(Request) returns (Request);
+}
+
+message Request {
+   message Header {
+      bytes name = 1;
+      bytes value = 2;
+   }
+   string url = 1;
+   repeated Header headers = 2;
+   bytes body = 3;
+}
