@@ -6,7 +6,6 @@ import itertools
 from concurrent import futures
 
 from base64 import b64encode
-from random import choice
 import grpc
 
 
@@ -14,7 +13,6 @@ sys.path.append("generated")
 from request_rewrite_plugin_pb2 import Request
 from request_rewrite_plugin_pb2_grpc import RewritePluginServicer, add_RewritePluginServicer_to_server
 
-# content_types = [b'application/grpc-web', b'application/grpc-web+proto', b'application/grpc-web-text', b'application/grpc-web-text+proto']
 
 class CustomRewritePluginServicer(RewritePluginServicer):
     def __init__(self):
@@ -26,15 +24,13 @@ class CustomRewritePluginServicer(RewritePluginServicer):
 
     def Rewrite(self, request, context):
         iter = 0
+        # Example: change content type from application/json to application/grpc-web-text, and base64 encode the body
         for h in request.headers:
             if h.name == b'content-type':
-                #request.headers[iter].value = b'application/grpc-web'
                 request.headers[iter].value = b'application/grpc-web-text'
-                #request.headers[iter].value = choice(content_types)
             iter += 1
         newBody = b64encode(request.body)
         request.body = newBody
-        #print(request)
         return request
 
 
