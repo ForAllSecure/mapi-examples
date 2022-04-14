@@ -6,11 +6,11 @@ API Target.
 
 The examples here may change as the feature evolves.
 
-### [python-auth-plugin](python-auth-plugin)
+### [python-rewrite-plugin](python-rewrite-plugin)
 
-This example implements a service that adds an `Authorization` header to every request.
+This example implements the rewrite plugin service that changes the content-type from application/json to application/grpc-web-text, and base64 encodes the body.
 
-### [java-auth-plugin](java-auth-plugin)
+### [java-rewrite-plugin](java-rewrite-plugin)
 
 This example implements the same service as `python-auth-plugin` but written in Java.
 
@@ -18,3 +18,8 @@ This example implements the same service as `python-auth-plugin` but written in 
 
 A plugin that injects an authorization header retreived from an
 OAuth OpenID Connect access token endpoint, implemented in Rust.
+This example implements the rewrite plugin adding an `Authorization` header to every request.
+
+### [python-classify-plugin](python-classify-plugin)
+
+This example implements the classify plugin by parsing the body for grpc-statuses and using them to create HTTP reponses.
