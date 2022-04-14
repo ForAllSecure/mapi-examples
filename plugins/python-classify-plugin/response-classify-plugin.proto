@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package mapi.classify;
+
+service ClassifyPlugin {
+   rpc Classify(Response) returns (Issues);
+}
+
+message Response {
+   message Header {
+      bytes name = 1;
+      bytes value = 2;
+   }
+   string request_url = 1;
+   string final_url = 2;
+   uint32 status = 3;
+   repeated Header headers = 4;
+   bytes body = 5;
+}
+
+message Issues {
+   message Issue {
+      string summary = 1;
+   }
+   repeated Issue issues = 1;
+}
