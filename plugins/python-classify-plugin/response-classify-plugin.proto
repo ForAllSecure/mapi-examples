@@ -3,7 +3,7 @@ syntax = "proto3";
 package mapi.classify;
 
 service ClassifyPlugin {
-   rpc Classify(Response) returns (Issues);
+  rpc Classify(Response) returns (Issues);
 }
 
 message Response {
