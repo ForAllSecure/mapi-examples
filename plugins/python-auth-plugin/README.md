@@ -45,7 +45,7 @@ source venv/bin/activate
 mapi run --url <API_URL> plugin-example \
   60 \
   <API_SPECIFICATION_PATH> \
-  --experimental-rewrite-plugin src/plugin.py
+  --rewrite-plugin src/plugin.py
 ```
 
 If you wish to debug the server while `mapi` is running in your IDE of favorite
@@ -60,7 +60,7 @@ you can pass the URL to `mapi run`:
 mapi run --url <API_URL> plugin-example \
   60 \
   <API_SPECIFICATION_PATH> \
-  --experimental-rewrite-plugin http://localhost:9001
+  --rewrite-plugin http://localhost:9001
 ```
 
 
@@ -114,5 +114,5 @@ docker run -it --rm -d --name mapi-plugin -p 9001:9001 mapi-python-auth-plugin
 mapi run --url <API_URL> plugin-example \
   60 \
   <API_SPECIFICATION_PATH> \
-  --experimental-rewrite-plugin http://localhost:9001
+  --rewrite-plugin http://localhost:9001
 ```
