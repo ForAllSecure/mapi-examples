@@ -46,7 +46,7 @@ pub struct Args {
     oauth_request_headers: Vec<(HeaderName, HeaderValue)>,
 
     /// The name of the HTTP header which will have the access token attached
-    /// when reqeusts are sent to the API under test
+    /// when requests are sent to the API under test
     #[arg(
         long = "api_under_test_header_name",
         default_value = "authorization",
