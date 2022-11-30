@@ -1,4 +1,4 @@
-This rust plugin example implements an authorization header
+This rust plugin example injects an authorization header
 retreived from an [OAuth OpenID Connect access token endpoint.](https://openid.net/specs/openid-connect-core-1_0.html#rfc.section.3.1.3)
 
 ![Sequence Diagram](./sequence_diagram.png)
@@ -134,7 +134,7 @@ on your system, you can post process the previous command to verify the string l
 ```shell
 gpcurl ... | jq --raw-output .headers[0].name | base64 -d
 ```
-and 
+and
 ```shell
 gpcurl ... | jq --raw-output .headers[0].value | base64 -d
 ```

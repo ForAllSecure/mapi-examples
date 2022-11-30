@@ -10,3 +10,8 @@ This example implements a service that adds an `Authorization` header to every r
 ### [java-auth-plugin](java-auth-plugin)
 
 This example implements the same service as `python-auth-plugin` but written in Java.
+
+### [rust-openid-token-plugin](rust-openid-token-plugin)
+
+A plugin that injects an authorization header retreived from an
+OAuth OpenID Connect access token endpoint, implemented in Rust.
