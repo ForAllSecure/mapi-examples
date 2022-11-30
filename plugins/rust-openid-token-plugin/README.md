@@ -1,4 +1,4 @@
-This rust plugin example implements an authorization header 
+This rust plugin example implements an authorization header
 retreived from an [OAuth OpenID Connect access token endpoint.](https://openid.net/specs/openid-connect-core-1_0.html#rfc.section.3.1.3)
 
 ![Sequence Diagram](./sequence_diagram.png)
@@ -8,7 +8,7 @@ retreived from an [OAuth OpenID Connect access token endpoint.](https://openid.n
 
 ## Prerequisites
 
-* rust 1.60 or higher
+* [rust 1.60 or higher](https://www.rust-lang.org/)
 * [`tonic` dependencies](https://github.com/hyperium/tonic#dependencies)
 * [`mapi` CLI 2.7.6 or higher](https://mayhem4api.forallsecure.com/docs/ch01-01-installation.html)
 * [`grpcurl`(Optional)](https://github.com/fullstorydev/grpcurl#installation)
@@ -25,7 +25,7 @@ cargo build
 The binary will be in `./target/debug/rust-openid-token-plugin`
 
 
-# Usage 
+# Usage
 
 ## Usage Prerequisites
 
@@ -43,8 +43,8 @@ able to use:
 ### `curl` Testing
 
 Once you've determined how you're going to retreive the access token,
-construct a [`curl`](https://curl.se/download.html) command that 
-returns an access token.  
+construct a [`curl`](https://curl.se/download.html) command that
+returns an access token.
 
 #### Example 1: `offline_access`
 
@@ -59,7 +59,7 @@ curl -vvv http://localhost:8080/auth/protocol/openid-connect/token" \
   --data-urlencode "client_secret=MY_CLIENT_SECRET" \
   --data-urlencode "username=USER" \
   --data-urlencode "password=USER_PASSWORD"
-  
+
 ```
 
 *You'll need to change all the `SCREAMING_SNAKE_CASE` variables to the particulars
@@ -84,10 +84,15 @@ of your OAuth system.*
 ## Starting Plugin
 
 With the `curl` command from the [previous step](#curl-testing), directly copy all
-`--data-urlencode` and specify your endpoint to the `rust-oauth-device-plugin` like:
+`--data-urlencode` and specify your endpoint to the `rust-oauth-device-plugin`
+like.
+
+*Take care to specify `--api-under-test-header-prefix` if you need it!
+Otherwise the plugin will simply pass the bare token as the header value.*
 
 ```shell
-rust-openid-token-plugin
+rust-openid-token-plugin \
+  --api-under-test-header-prefix "Bearer " \
   --oauth-token-url http://localhost:8080/auth/protocol/openid-connect/token" \
   --data-urlencode "grant_type=pasword" \
   --data-urlencode "scope=openid offline_access" \
@@ -121,6 +126,17 @@ If successful, the response will look something like the following with base64-e
   ],
   "body": "body"
 }
+```
+
+If you have [`jq` command](https://github.com/stedolan/jq) and the [`base64` command](https://linuxhint.com/bash_base64_encode_decode/)
+on your system, you can post process the previous command to verify the string like:
+
+```shell
+gpcurl ... | jq --raw-output .headers[0].name | base64 -d
+```
+and 
+```shell
+gpcurl ... | jq --raw-output .headers[0].value | base64 -d
 ```
 
 ## Running the plugin with `mapi`
