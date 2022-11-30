@@ -35,7 +35,7 @@ pub struct Args {
     /// `application/x-www-form-urlencoded` This switch is a minimalist copy of
     /// curl's `switch of the same name.
     #[arg(long = "data-urlencode", env, value_parser(try_parse_data_urlencode))]
-    oath_data_urlencodes: Vec<String>,
+    oauth_data_urlencodes: Vec<String>,
 
     /// A header to be sent to the oauth enpoint
     #[arg(
@@ -101,8 +101,8 @@ impl MyRewriterPlugin {
         }
 
         let mut body = vec![];
-        for oath_data_urlencode in self.args.oath_data_urlencodes.iter() {
-            body.push(oath_data_urlencode.clone());
+        for oauth_data_urlencode in self.args.oauth_data_urlencodes.iter() {
+            body.push(oauth_data_urlencode.clone());
         }
 
         let response = request
