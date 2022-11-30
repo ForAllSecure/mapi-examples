@@ -3,7 +3,7 @@ skinparam monochrome true
 participant AUT as "\nAPI Under Test\n"
 participant mapi as "mapi run [...]\n--rewrite-plugin\nhttp://127.0.0.1:50051"
 participant plugin as "\nrust-oauth-device-plugin\n" #lightGray
-participant oauth as "\nOAuth Connect\n"
+participant oauth as "\nOAuth\nOpenID Connect\n"
 
 mapi --> plugin: grpc: request1
 activate plugin
