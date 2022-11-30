@@ -37,7 +37,7 @@ pub struct Args {
     #[arg(long = "data-urlencode", env, value_parser(try_parse_data_urlencode))]
     oath_data_urlencodes: Vec<String>,
 
-    /// A header to be sent to on the  oauth enpoint
+    /// A header to be sent to the oauth enpoint
     #[arg(
         long = "header",
         env = "MAPI_OAUTH_REQUEST_HEADER",
