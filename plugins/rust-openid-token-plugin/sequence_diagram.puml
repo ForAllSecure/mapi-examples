@@ -1,0 +1,30 @@
+@startuml
+skinparam monochrome true
+participant AUT as "\nAPI Under Test\n"
+participant mapi as "mapi run [...]\n--rewrite-plugin\nhttp://127.0.0.1:50051"
+participant plugin as "\nrust-oauth-device-plugin\n" #lightGray
+participant oauth as "\nOAuth Connect\n"
+
+mapi --> plugin: grpc: request1
+activate plugin
+plugin --> oauth: HTTP POST [...]openid-connect/token
+activate oauth
+return {access_token:..., expires_in:...}
+return modified request1\nw/ access_token header
+mapi --> AUT: modified request1
+...
+mapi --> plugin: grpc: request2
+activate plugin
+return modified request2\nw/ access_token header
+mapi --> AUT: modified request2
+
+... Access Token Expires ...
+mapi --> plugin: grpc: requestN
+activate plugin
+plugin --> oauth: HTTP POST [...]openid-connect/token
+activate oauth
+return {access_token:..., expires_in:...}
+return modified requestN\nw/ access_token header
+mapi --> AUT: modified requestN
+
+@enduml
