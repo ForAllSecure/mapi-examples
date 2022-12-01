@@ -48,7 +48,7 @@ pub struct Args {
     /// The name of the HTTP header which will have the access token attached
     /// when requests are sent to the API under test
     #[arg(
-        long = "api_under_test_header_name",
+        long,
         default_value = "authorization",
         env,
         value_parser(try_parse_header_name)
@@ -57,7 +57,7 @@ pub struct Args {
 
     /// A prefix to prepended to the access token and set as the value of the
     /// header field from `api_under_test_header_name`
-    #[arg(long = "api_under_test_header_prefix", env)]
+    #[arg(long, env)]
     api_under_test_header_prefix: Option<HeaderValue>,
 }
 
