@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.11
 LABEL maintainer="ForAllSecure Team <mayhem4api@forallsecure.com>"
 ARG port=9001
 ENV MAPI_PLUGIN_PORT=$port
