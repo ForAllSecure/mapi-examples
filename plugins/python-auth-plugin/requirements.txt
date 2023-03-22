@@ -1,2 +1,4 @@
-grpcio==1.38.1
-grpcio-tools==1.38.1
+grpcio==1.51.1
+grpcio-tools==1.51.1
+protobuf==4.21.12
+six==1.16.0
