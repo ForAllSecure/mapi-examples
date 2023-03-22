@@ -29,7 +29,7 @@ by passing the path to `./build/install/java-auth-plugin/bin/mapi-plugin-server`
 mapi run --url <API_URL> plugin-example \
   60 \
   <API_SPECIFICATION_PATH> \
-  --experimental-rewrite-plugin ./build/install/java-auth-plugin/bin/mapi-plugin-server
+  --rewrite-plugin ./build/install/java-auth-plugin/bin/mapi-plugin-server
 ```
 
 If you wish to debug the server while `mapi` is running in your IDE of favorite
@@ -44,7 +44,7 @@ you can pass the URL to `mapi run`:
 mapi run --url <API_URL> plugin-example \
   60 \
   <API_SPECIFICATION_PATH> \
-  --experimental-rewrite-plugin http://localhost:9001
+  --rewrite-plugin http://localhost:9001
 ```
 
 
