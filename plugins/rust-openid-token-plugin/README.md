@@ -93,7 +93,7 @@ Otherwise the plugin will simply pass the bare token as the header value.*
 ```shell
 rust-openid-token-plugin \
   --api-under-test-header-prefix "Bearer " \
-  --oauth-token-url http://localhost:8080/auth/protocol/openid-connect/token" \
+  --oauth-token-url "http://localhost:8080/auth/protocol/openid-connect/token" \
   --data-urlencode "grant_type=pasword" \
   --data-urlencode "scope=openid offline_access" \
   --data-urlencode 'client_id=MY_CLIENT' \
