@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "@grpc/grpc-js": "^1.10.7",
+    "@grpc/proto-loader": "^0.7.13"
+  },
+  "name": "typescript-rewrite-plugin",
+  "description": "* Python 3.8 or higher * `mapi` CLI 2.7.6 or higher [Installation](https://mayhem4api.forallsecure.com/docs/ch01-01-installation.html) * Docker (Optional)",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {
+    "@types/node": "^20.12.11",
+    "typescript": "^5.4.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
