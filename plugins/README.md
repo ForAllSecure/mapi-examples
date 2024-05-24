@@ -9,7 +9,11 @@ and other modifications to every request that are not available out of the box.
 
 This example implements the rewrite plugin service that changes the content-type from application/json to application/grpc-web-text, and base64 encodes the body.
 
-### [java-rewrite-plugin](java-rewrite-plugin)
+### [python-auth-plugin](python-auth-plugin)
+
+This example implements a service that adds an `Authorization` header to every request.
+
+### [java-auth-plugin](java-auth-plugin)
 
 This example implements the same service as `python-auth-plugin` but written in Java.
 
@@ -22,3 +26,7 @@ This example implements the rewrite plugin adding an `Authorization` header to e
 ### [python-classify-plugin](python-classify-plugin)
 
 This example implements the classify plugin by parsing the body for grpc-statuses and using them to create HTTP reponses.
+
+### [typescript-rewrite-plugin](typescript-rewrite-plugin)
+
+This example shows how to use typescript as a plugin, although it doesn't modify the request or do anything useful.
