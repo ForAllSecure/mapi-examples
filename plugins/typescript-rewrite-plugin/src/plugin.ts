@@ -38,3 +38,5 @@ function main() {
     });
 }
 
+main();
+

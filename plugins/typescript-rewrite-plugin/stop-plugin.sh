@@ -6,6 +6,6 @@ if [ -z "$PID" ]; then
     echo "Server not running."
 else
     kill $PID
-    -rm dist
+    rm -rf dist
     echo "Server with PID $PID has been stopped."
 fi
