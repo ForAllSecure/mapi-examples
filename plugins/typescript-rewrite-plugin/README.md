@@ -1,68 +1,65 @@
 # Prerequisites
 
-* Python 3.8 or higher
-* `mapi` CLI 2.7.6 or higher [Installation](https://mayhem4api.forallsecure.com/docs/ch01-01-installation.html)
-* Docker (Optional)
-
+* Node.js
+* `mapi` CLI [Installation](https://mayhem4api.forallsecure.com/docs/ch01-01-installation.html)
 
 Select one of the development methods below.
 
 # Developing
 
-## Create a local virtual environment:
+## Install NPM dependencies.
 
 ```shell
-python3 -m venv venv
-source venv/bin/activate
-python3 -m pip install -r requirements.txt
+npm install
 ```
 
-## Generate code for `.proto` file.
+## Transpile the TypeScript code into Javascript
 
-ℹ️ This will generate the source files from the `.proto` file
+Transpile configuration is kept under the `tsconfig.json` file.
 
 ```shell
-mkdir -p generated
-python3 -m grpc_tools.protoc --python_out=generated --grpc_python_out=generated -I. request-rewrite-plugin.proto
+npx tsc
 ```
 
-The server code is located under [`src/plugin.py`](src/plugin.py)
+The server code is located under [`src/plugin.ts`](src/plugin.ts)
 
 ## Running the plugin with `mapi`
 
 Now we can run the plugin with the `mapi` CLI!
 
-
-You can let `mapi` handle the lifecycle of starting and stopping your plugin
-by passing the path to [`src/plugin.py`](src/plugin.py) to the `mapi run` command.
-
+For Typescript/Javascript, the server needs to be running first. You can do this with `node`.
+Once the server is running, you can pass the URL to `mapi run`:
 
 ```shell
-# Make sure the virtualenv is active
-source venv/bin/activate
+# Start the server
+
+node dist/plugin.js &
 
 # Start a new fuzzing job named 'plugin-example' and run for 60 seconds
 mapi run --url <API_URL> plugin-example \
   60 \
   <API_SPECIFICATION_PATH> \
-  --rewrite-plugin src/plugin.py
+  --rewrite-plugin http://localhost:50051
 ```
 
-If you wish to debug the server while `mapi` is running in your IDE of favorite
-debugging tool, you will need to start the server FIRST. Once the server is running,
-you can pass the URL to `mapi run`:
+## Putting it all together
+
+There are two convenience scripts in this folder that automate starting and stopping the server.
 
 ```shell
-# Set MAPI_PLUGIN_PORT=9001 to force the plugin to run on port 9001
-# ... start your server ...
+# Start the server
 
-# Start a new fuzzing job named 'plugin-example' and run for 60 seconds
+./run-plugin.sh
+
+# Start your mapi job
 mapi run --url <API_URL> plugin-example \
   60 \
   <API_SPECIFICATION_PATH> \
-  --rewrite-plugin http://localhost:9001
-```
+  --rewrite-plugin http://localhost:50051
 
+# Stop the server
+./stop-plugin.sh
+```
 
 ## Other run options
 
@@ -71,48 +68,7 @@ mapi run --url <API_URL> plugin-example \
 Run with a manually specified port (9001):
 
 ```shell
-MAPI_PLUGIN_PORT=9001 python3 src/plugin.py
+MAPI_PLUGIN_PORT=9001 node dist/plugin.js &
 
-9001
-```
-
-Run with an automatically assigned port:
-
-```shell
-python3 src/plugin.py
-
-59304
-```
-
-This will start the plugin in listening mode. The only output you should see is the port where
-the server is listening.
-
-## Running with Docker
-
-A `Dockerfile` is included to demonstrate how to run the plugin in a Docker container. First
-you must build the image:
-
-```shell
-docker build -t mapi-python-auth-plugin .
-```
-
-You can now run the server with the default port (`9001`).
-
-```shell
-docker run -it --rm --name mapi-plugin -p 9001:9001 mapi-python-auth-plugin
-
-9001
-```
-
-With the docker container running, you can instruct `mapi` to use it for request
-rewrites by passing the url to the `mapi run` command:
-
-```shell
-docker run -it --rm -d --name mapi-plugin -p 9001:9001 mapi-python-auth-plugin
-
-# Start a new fuzzing job named 'plugin-example' and run for 60 seconds
-mapi run --url <API_URL> plugin-example \
-  60 \
-  <API_SPECIFICATION_PATH> \
-  --rewrite-plugin http://localhost:9001
+Server running on port 9001
 ```

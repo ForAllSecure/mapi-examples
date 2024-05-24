@@ -21,7 +21,7 @@ console.log(JSON.stringify(protoDescriptor, null, 2));
 class RewritePluginServicer implements UntypedServiceImplementation {
     [name: string]: grpc.UntypedHandleCall;
     public rewrite(call: ServerUnaryCall<any, any>, callback: sendUnaryData<any>): void {
-        callback(null, call.request); // Simply returning the request as response for now
+        callback(null, call.request); // Simply returning the request as response for now; try something interesting!
     }
 }
 
@@ -29,7 +29,9 @@ function main() {
     const server = new grpc.Server();
     server.addService(requestRewritePlugin.service, new RewritePluginServicer());
 
-    server.bindAsync('127.0.0.1:50051', grpc.ServerCredentials.createInsecure(), (err, port) => {
+    const plugin_port = process.env.MAPI_PLUGIN_PORT || '50051';
+
+    server.bindAsync(`127.0.0.1:${plugin_port}`, grpc.ServerCredentials.createInsecure(), (err, port) => {
         if (err) {
             console.error(err);
             return;
@@ -38,5 +40,6 @@ function main() {
     });
 }
 
+// Start the server
 main();
 
