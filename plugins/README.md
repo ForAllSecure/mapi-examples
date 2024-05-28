@@ -33,4 +33,4 @@ This example shows how to use typescript as a plugin.
 
 ### [python-classify-plugin](python-classify-plugin)
 
-This example implements the classify plugin by parsing the body for grpc-statuses and using them to create HTTP reponses.
+This example implements the classify plugin by parsing the body for grpc-statuses and using them to create HTTP responses.
