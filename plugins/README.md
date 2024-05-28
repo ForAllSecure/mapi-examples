@@ -29,7 +29,7 @@ This example shows how to use typescript as a plugin.
 
 ### Response Classify Plugin Examples
 
-[Response Classify plugins](https://app.mayhem.security/docs/api-testing/guides/classify-plugin/) allow you to classify reponses recieved from the server with customer headers, status codes, or other data.
+[Response Classify plugins](https://app.mayhem.security/docs/api-testing/guides/classify-plugin/) allow you to classify responses received from the server with customer headers, status codes, or other data.
 
 ### [python-classify-plugin](python-classify-plugin)
 
