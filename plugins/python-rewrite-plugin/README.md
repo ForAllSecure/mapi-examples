@@ -48,7 +48,7 @@ mapi run --url <API_URL> plugin-example \
   --rewrite-plugin src/plugin.py
 ```
 
-If you wish to debug the server while `mapi` is running in your IDE of favorite
+If you wish to debug the server while `mapi` is running in your IDE or favorite
 debugging tool, you will need to start the server FIRST. Once the server is running,
 you can pass the URL to `mapi run`:
 
