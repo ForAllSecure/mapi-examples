@@ -144,3 +144,9 @@ gradle-app.setting
 
 # Cache of project
 .gradletasknamecache
+
+# Node module directory
+node_modules/
+
+# nohup
+nohup.out
