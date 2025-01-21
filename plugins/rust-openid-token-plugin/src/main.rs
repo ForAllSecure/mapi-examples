@@ -60,9 +60,9 @@ pub struct Args {
     #[arg(long, env)]
     api_under_test_header_prefix: Option<HeaderValue>,
 
-    /// Flag for whether or not to overwrite existing headers with the same name
+    /// Flag for whether or not to retain existing headers with the same name
     #[arg(long, env, action = clap::ArgAction::SetTrue)]
-    overwrite_existing_headers: bool,
+    retain_existing_headers: bool,
 
 }
 
@@ -153,7 +153,7 @@ impl RewritePlugin for MyRewriterPlugin {
         let mut req = request.into_inner();
 
         // Filter out the header that we are going to add
-        if self.args.overwrite_existing_headers {
+        if !self.args.retain_existing_headers {
             req.headers.retain(|header| {
                 let name_matches = header.name == self.args.api_under_test_header_name.as_str().as_bytes();
                 let prefix_matches = if let Some(prefix) = &self.args.api_under_test_header_prefix {

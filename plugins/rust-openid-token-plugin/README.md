@@ -139,9 +139,9 @@ and
 gpcurl ... | jq --raw-output .headers[0].value | base64 -d
 ```
 
-### Remove existing auth headers that share the same name
+### Retain existing auth headers that share the same name
 
-You may be running with a collection or specification that already has an `Authorization: Bearer 123...` or some similar header. To dynamically remove those headers that are already present in the spec, you can add the `--overwrite-existing-headers` flag to the command line.
+By default, the plugin will overwrite authentication headers that share the same name as the one dynamically pulled by the plugin. To change this behavior, you can add the `--retain-existing-headers` flag to the command line.
 
 ```shell
 rust-openid-token-plugin \
@@ -153,7 +153,7 @@ rust-openid-token-plugin \
   --data-urlencode "client_secret=MY_CLIENT_SECRET" \
   --data-urlencode "username=USER" \
   --data-urlencode "password=USER_PASSWORD"
-  --overwrite-existing-headers
+  --retain-existing-headers
 ```
 
 ## Running the plugin with `mapi`
