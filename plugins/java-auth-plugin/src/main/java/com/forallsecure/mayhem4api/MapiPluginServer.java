@@ -63,24 +63,32 @@ public final class MapiPluginServer extends RewritePluginImplBase {
     public void rewrite(Request request, StreamObserver<Request> responseObserver) {
         final int count = request_count.addAndGet(1);
 
+        // Filter out any existing "Authorization" headers
+        Request.Builder new_request = Request.newBuilder(request).clearHeaders();
+        for (Header header : request.getHeadersList()) {
+            if (!header.getName().toStringUtf8().equalsIgnoreCase("Authorization")) {
+                new_request.addHeaders(header);
+            }
+        }
+
         // Append a custom 'Authorization' header to the request
-        final Header.Builder builder = Header.newBuilder();
-        builder.setName(ByteString.copyFromUtf8("Authorization"));
+        final Header.Builder new_header = Header.newBuilder();
+        new_header.setName(ByteString.copyFromUtf8("Authorization"));
 
         /// Send the 'foo' authorization token every fifth call...
         if (count % 5 == 0) {
-            builder.setValue(ByteString.copyFromUtf8("Bearer foo"));
+            new_header.setValue(ByteString.copyFromUtf8("Bearer foo"));
         }
         //...otherwise send 'bar'
         else {
-            builder.setValue(ByteString.copyFromUtf8("Bearer bar"));
+            new_header.setValue(ByteString.copyFromUtf8("Bearer bar"));
         }
+
+        new_request.addHeaders(new_header.build());
 
         // Request cannot be modified directly. Build a new one, using the
         // request passed in as the prototype and add our new header.
-        final Request modified_request = Request.newBuilder(request)
-                .addHeaders(builder.build())
-                .build();
+        final Request modified_request = new_request.build(); 
         responseObserver.onNext(modified_request);
         responseObserver.onCompleted();
     }

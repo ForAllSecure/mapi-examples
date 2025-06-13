@@ -21,7 +21,19 @@ console.log(JSON.stringify(protoDescriptor, null, 2));
 class RewritePluginServicer implements UntypedServiceImplementation {
     [name: string]: grpc.UntypedHandleCall;
     public rewrite(call: ServerUnaryCall<any, any>, callback: sendUnaryData<any>): void {
-        callback(null, call.request); // Simply returning the request as response for now; try something interesting!
+        // Here we will demonstrate overwriting simple auth header
+        const requestMetadata = call.metadata;
+        // const auth = requestMetadata.get('Authorization');
+        // if (auth && auth.length > 0) {
+        // Don't need to get/check auth, just overwrite it or set a new one if it doesn't exist
+        requestMetadata.set('Authorization', 'Bearer new_token_value');
+        // }
+        
+        // Send the metadata
+        call.sendMetadata(requestMetadata);
+
+        // Return the modified request as the response
+        callback(null, call.request);
     }
 }
 
