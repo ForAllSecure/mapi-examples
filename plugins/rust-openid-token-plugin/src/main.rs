@@ -59,6 +59,11 @@ pub struct Args {
     /// header field from `api_under_test_header_name`
     #[arg(long, env)]
     api_under_test_header_prefix: Option<HeaderValue>,
+
+    /// Flag for whether or not to retain existing headers with the same name
+    #[arg(long, env, action = clap::ArgAction::SetTrue)]
+    retain_existing_headers: bool,
+
 }
 
 pub mod mapi {
@@ -146,6 +151,19 @@ impl RewritePlugin for MyRewriterPlugin {
         self.ensure_fresh_access_token().await;
 
         let mut req = request.into_inner();
+
+        // Filter out the header that we are going to add
+        if !self.args.retain_existing_headers {
+            req.headers.retain(|header| {
+                let name_matches = header.name == self.args.api_under_test_header_name.as_str().as_bytes();
+                let prefix_matches = if let Some(prefix) = &self.args.api_under_test_header_prefix {
+                    header.value.starts_with(prefix.as_bytes())
+                } else {
+                    true
+                };
+                !(name_matches && prefix_matches)
+            });
+        }
 
         if let Some(access_token) = self.access_token.lock().await.as_ref() {
             let mut header_value = access_token.as_bytes().to_vec();

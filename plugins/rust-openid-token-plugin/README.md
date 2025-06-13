@@ -139,6 +139,23 @@ and
 gpcurl ... | jq --raw-output .headers[0].value | base64 -d
 ```
 
+### Retain existing auth headers that share the same name
+
+By default, the plugin will overwrite authentication headers that share the same name as the one dynamically pulled by the plugin. To change this behavior, you can add the `--retain-existing-headers` flag to the command line.
+
+```shell
+rust-openid-token-plugin \
+  --api-under-test-header-prefix "Bearer " \
+  --oauth-token-url "http://localhost:8080/auth/protocol/openid-connect/token" \
+  --data-urlencode "grant_type=pasword" \
+  --data-urlencode "scope=openid offline_access" \
+  --data-urlencode 'client_id=MY_CLIENT' \
+  --data-urlencode "client_secret=MY_CLIENT_SECRET" \
+  --data-urlencode "username=USER" \
+  --data-urlencode "password=USER_PASSWORD"
+  --retain-existing-headers
+```
+
 ## Running the plugin with `mapi`
 
 Start the plugin with the command constructed in section [Starting Plugin](#starting-plugin)
