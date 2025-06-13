@@ -29,13 +29,17 @@ class CustomRewritePluginServicer(RewritePluginServicer):
         """
         count = next(self.request_count)
 
-        # Append a custom authorization header to the request
+        # Create a new list of headers, excluding any existing 'Authorization' headers
+        new_headers = [header for header in request.headers if header.name != b"Authorization"]
         # Send the 'foo' authorization token every fifth call...
         if count % 5 == 0:
-            request.headers.append(Request.Header(name=b"Authorization", value=b"Bearer foo"))
+            new_headers.append(Request.Header(name=b"Authorization", value=b"Bearer foo"))
         # ...otherwise send 'bar'
         else:
-            request.headers.append(Request.Header(name=b"Authorization", value=b"Bearer bar"))
+            new_headers.append(Request.Header(name=b"Authorization", value=b"Bearer bar"))
+
+        # Finally, replace the request headers with the new headers
+        request.headers = new_headers
 
         # Return the request with the new header
         return request
