@@ -102,7 +102,7 @@ rust-openid-token-plugin \
   --data-urlencode "password=USER_PASSWORD"
 ```
 
-Test this rewrite server with the following [`gpcurl`](https://github.com/fullstorydev/grpcurl#installation)
+Test this rewrite server with the following [`grpcurl`](https://github.com/fullstorydev/grpcurl#installation)
 line:
 ```shell
 grpcurl \
@@ -132,11 +132,11 @@ If you have [`jq` command](https://github.com/stedolan/jq) and the [`base64` com
 on your system, you can post process the previous command to verify the string like:
 
 ```shell
-gpcurl ... | jq --raw-output .headers[0].name | base64 -d
+grpcurl ... | jq --raw-output .headers[0].name | base64 -d
 ```
 and
 ```shell
-gpcurl ... | jq --raw-output .headers[0].value | base64 -d
+grpcurl ... | jq --raw-output .headers[0].value | base64 -d
 ```
 
 ### Retain existing auth headers that share the same name
