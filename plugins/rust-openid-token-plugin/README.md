@@ -166,3 +166,31 @@ Run `mapi`, referencing the plugin
 ```shell
 mapi run [..] --rewrite-plugin http://localhost:50051
 ```
+
+## Running in CI
+
+Here's a few helper scripts to get started including the token plugin in your CI pipelines. 
+
+First, create a `start-token-listener.sh` script like so:
+
+```shell
+nohup ./rust-openid-token-plugin \ 
+  <opts> \
+  &
+
+echo $! > .start-token-listener.pid
+```
+
+Now, the token script is running as a detached process and the pid is saved in `.start-token-listener.pid` (add `*.pid` to your `.gitignore`!)
+When you call `mapi` in your CI pipelines, you can do so like this:
+
+```shell
+start-token-listener.sh
+
+mapi run [..] --rewrite-plugin http://localhost:50051
+
+echo "Spinning down plugin..."
+kill $(cat .token.pid)
+```
+
+This allows you to start your token plugin, kick off your `mapi run` command, and then stop the plugin at the end of the run.
