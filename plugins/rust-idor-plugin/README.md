@@ -172,25 +172,7 @@ mapi run workspace/target/project \
 When the plugin finds IDOR, mAPI surfaces it as a Custom Issue. The summary
 is intentionally prefixed `IDOR/BOLA:` so it's easy to search for in the UI,
 and uses the shape-canonical path (`/*` for the variable segment) so all
-concrete-URL hits collapse to one finding per shape via mAPI's dedup:
-
-```
-IDOR/BOLA: 'user_b' returned HTTP 200 on GET /driver/*
-```
-
-Detailed per-hit info (concrete URL, body-match percentage) is logged to
-stderr for tuning `MAPI_IDOR_BODY_SIMILARITY_THRESHOLD`:
-
-```
-emitted IDOR for 'user_b' on GET /driver/* (concrete GET /driver/driver-admin, ~100% body match)
-```
-
-Public endpoints (where the canary also returns 2xx with similar body) are
-blocklisted on first observation; you'll see a stderr line like:
-
-```
-blocklisting GET /health from future IDOR checks: endpoint appears public (canary HTTP 200, ~100% body match)
-```
+concrete-URL hits collapse to one finding per shape.
 
 
 # Caveats
@@ -201,21 +183,17 @@ blocklisting GET /health from future IDOR checks: endpoint appears public (canar
   For demos, set `MAPI_IDOR_SAMPLE_RATE=1` to see findings faster; for
   production runs, the default is more polite.
 * **Body comparison is length-only.** Two responses of similar size but
-  totally different content will appear similar. Good enough as a first
-  filter; consider this a v1 heuristic.
+  totally different content will appear similar. 
 * **Spec is not consulted.** The plugin makes no assumption that an endpoint
   is auth-protected — it discovers that empirically via the canary. This
   means real IDOR is detected even on endpoints whose spec is wrong or
   missing a `security` block.
-* **Detection of missing-auth bugs is out of scope.** If an endpoint that
-  *should* require auth doesn't, mAPI's other checkers will flag it.
 * **Path-shape canonicalization is heuristic.** The summary canonicalizes
   only the last path segment with `*`, so `/users/{id}/profile` and
   `/users/{id}/orders` would each get their own finding rather than
-  collapsing into a single `/users/{id}/*` entry. Good enough for shallow
-  APIs and demos.
+  collapsing into a single `/users/{id}/*` entry.
 * **Single-segment endpoints are never checked.** `/health`, `/me`,
-  `/locations` and similar paths are skipped regardless of whether they
+  `/info` and similar paths are skipped regardless of whether they
   return per-user data. The trade-off: per-user resources without an `{id}`
   in the path (e.g. `/me`) won't be tested, but neither will global
   endpoints that are shared by design.
