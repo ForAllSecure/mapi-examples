@@ -71,6 +71,14 @@ pub struct Args {
     /// included because they operate on existing identified resources.
     #[arg(long, env = "MAPI_IDOR_METHODS", default_value = "GET,PUT,DELETE", value_delimiter = ',')]
     methods: Vec<String>,
+
+    /// Disable TLS certificate verification for side-channel requests.
+    /// DANGEROUS — only enable when the target uses self-signed or expired
+    /// certs in a trusted local environment. With this off, an attacker on
+    /// the network path can MITM the connection and harvest the alt
+    /// identities (real credentials) the plugin sends.
+    #[arg(long, env = "MAPI_IDOR_INSECURE_TLS", default_value_t = false)]
+    insecure_tls: bool,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -449,11 +457,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         args.methods,
     );
 
+    if args.insecure_tls {
+        eprintln!(
+            "WARNING: TLS verification disabled for side-channel requests (MAPI_IDOR_INSECURE_TLS=true). \
+             Alt identities (real credentials) may be exposed to MITM. Only use against trusted local targets."
+        );
+    }
+
     let state = PluginState {
         stash: Arc::new(DashMap::new()),
         identities: Arc::new(identities),
         http: reqwest::Client::builder()
-            .danger_accept_invalid_certs(true)
+            .danger_accept_invalid_certs(args.insecure_tls)
             .build()?,
         timeout: Duration::from_millis(args.side_channel_timeout_ms),
         verbose: args.verbose,

@@ -131,6 +131,7 @@ Path is provided via `MAPI_IDOR_ALT_IDENTITIES`.
 | `MAPI_IDOR_BODY_SIMILARITY_THRESHOLD`    | `0.8`              | Min `min(len)/max(len)` body-length ratio required to flag. `1.0` = exact length, `0.0` = ignore body, status-only. Also used as the canary-vs-original gate. |
 | `MAPI_IDOR_SIDE_CHANNEL_TIMEOUT_MS`      | `10000`            | Per-side-channel HTTP timeout. |
 | `MAPI_IDOR_STATE_TTL_SECS`               | `60`               | TTL on stashed side-channel results (orphan eviction). |
+| `MAPI_IDOR_INSECURE_TLS`                 | `false`            | Disable TLS verification for side-channel requests. **Dangerous** — see Caveats. |
 
 
 # Usage
@@ -197,3 +198,10 @@ concrete-URL hits collapse to one finding per shape.
   return per-user data. The trade-off: per-user resources without an `{id}`
   in the path (e.g. `/me`) won't be tested, but neither will global
   endpoints that are shared by design.
+* **TLS verification is on by default.** Side-channel requests verify the
+  target's certificate just like a normal HTTP client. To run against
+  self-signed or expired certs (common in local/staging environments), set
+  `MAPI_IDOR_INSECURE_TLS=true` — but understand the risk: side-channels
+  carry the alt identities (real credentials) and the original request
+  body, so an attacker on the network path can MITM and harvest them. Use
+  only against trusted local targets.
