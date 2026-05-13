@@ -1,0 +1,7 @@
+[
+  {
+    "label": "user_b",
+    "header": "Authorization",
+    "value": "Bearer REPLACE_WITH_PEER_USER_TOKEN"
+  }
+]
