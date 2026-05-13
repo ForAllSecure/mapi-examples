@@ -1,0 +1,20 @@
+[package]
+name = "rust-idor-plugin"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tonic = "0.8.2"
+prost = "0.11"
+tokio = { version = "1.0", features = ["macros", "rt-multi-thread", "sync", "time"] }
+clap = { version = "4.0.27", features = ["derive", "env"] }
+portpicker = "0.1.1"
+reqwest = { version = "0.11", default-features = false, features = ["rustls-tls"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+dashmap = "5.5"
+uuid = { version = "1.6", features = ["v4"] }
+futures = "0.3"
+
+[build-dependencies]
+tonic-build = "0.8"
